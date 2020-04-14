@@ -1,10 +1,12 @@
-import express from 'express';
-import loaders from './loaders';
+const express = require('express');
+const loaders = require('./loaders');
 
 const app = express();
 
-const startServer = async () => {
-  await loaders({ app });
+async function startServer() {
+  await loaders({
+    app,
+  });
 
   app.listen(process.env.SERVER_PORT, process.env.SERVER_HOST, (err) => {
     if (err) {
@@ -17,4 +19,4 @@ const startServer = async () => {
 
 startServer();
 
-export default app;
+module.exports = app;

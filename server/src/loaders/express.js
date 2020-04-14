@@ -1,23 +1,19 @@
-import compression from 'compression';
-import cors from 'cors';
-import dotEnv from 'dotenv';
-
-import environments from '../config/environments';
+const express = require('express');
+const compression = require('compression');
+const cors = require('cors');
+const dotEnv = require('dotenv');
+const environments = require('../config/environments');
 
 const expressLoader = {
-  init: ({ app }) => {
+  init: (app) => {
     dotEnv.config(environments);
 
     app.use(compression());
     app.use(cors());
-
-    app.get('/status', (_req, res) => res.status(200).end());
-    app.head('/status', (_req, res) => res.status(200).end());
-
-    app.enable('trust proxy');
+    app.use(express.json());
 
     return app;
   }
 };
 
-export default expressLoader;
+module.exports = expressLoader;

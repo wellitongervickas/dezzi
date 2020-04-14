@@ -1,5 +1,9 @@
-import expressLoader from './express';
+const expressLoader = require('./express');
+const statusLoader = require('./status');
+const routesLoader = require('./routes');
 
-export default async (app) => {
+module.exports = async ({ app }) => {
   await expressLoader.init(app);
+  await statusLoader.init(app);
+  await routesLoader.init(app);
 };
