@@ -7,8 +7,8 @@ exports.up = function(knex) {
     t.string('phone').notNullable();
     t.string('email').notNullable();
 
-    t.string('user_id').notNullable();
-    t.foreign('user_id').references('id').inTable('users');
+    t.string('user_uuid').notNullable();
+    t.foreign('user_uuid').references('uuid').inTable('users');
   });
 };
 

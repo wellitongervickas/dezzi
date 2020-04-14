@@ -3,9 +3,16 @@ const ContactController = require('./controllers/ContactController');
 const BillingController = require('./controllers/BillingController');
 
 const routes = app => {
-  app.use('/users', UserController);
-  app.use('/contacts', ContactController);
-  app.use('/billings', BillingController);
+  [{
+    path: '/users',
+    controller: UserController,
+  }, {
+    path: '/contacts',
+    controller: ContactController,
+  }, , {
+    path: '/billings',
+    controller: BillingController,
+  }].forEach((route) => app.use(route.path, route.controller));
 
   app.all('*', (_req, res) => {
     return res.status(404).send();
