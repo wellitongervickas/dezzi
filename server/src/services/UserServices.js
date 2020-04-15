@@ -1,32 +1,17 @@
-const uuid = require('uuid').v1;
-const bcrypt = require('bcryptjs');
 const conn = require('../database/conn');
+const jwt = require('../helpers/api/jwt');
+const User = require('../models/User');
 
 const UserServices = {
   createUser: async (req, res) => {
-    try {
-      const {
-        first_name,
-        last_name,
-        email,
-        password,
-      } = req.body;
+    const user = await User.create(req.body)
+    await conn('users').insert(user);
 
-      const hashPass = await bcrypt.hash(password, 10);
-
-      await conn('users').insert({
-        first_name,
-        last_name,
-        email,
-        password: hashPass,
-        uuid: uuid(),
-      });
-
-      return res.send({ createUser: true });
-    } catch (err) {
-      console.log(err);
-      return res.status(500).send();
-    }
+    return res.send({
+      token: jwt.generator({
+        uuid: user.uuid,
+      }),
+    });
   },
 
   getUsers: async (req, res) => {
