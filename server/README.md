@@ -3,6 +3,7 @@
 ## Npm Scripts
 
 * npm install
+* npm run dev
 * npm start
 
 ## Knex
