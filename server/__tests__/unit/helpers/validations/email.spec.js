@@ -25,7 +25,7 @@ describe('Helpers Validations Email', () => {
     expect(email(0)).toEqual(true);
   });
 
-  it('should return false on valid email vlaues', () => {
+  it('should return false on valid email values', () => {
     expect(email('welliton@gervickas.com')).toEqual(false);
     expect(email('naruto@jinchuriki.com')).toEqual(false);
   });

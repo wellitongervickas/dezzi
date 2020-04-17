@@ -4,11 +4,11 @@ const decode = token => jwt.decode(token, process.env.SERVER_TOKEN_SECRET, (err,
   return err ? null : decoded;
 });
 
-const generator = params => jwt.sign(params, process.env.SERVER_TOKEN_SECRET, {
+const generator = (params = {}) => jwt.sign(params, process.env.SERVER_TOKEN_SECRET, {
   expiresIn: process.env.SERVER_TOKEN_EXPIRES,
 });
 
-const extractor = ({ authorization }) => {
+const extractor = (authorization) => {
   if ([null, undefined, ''].indexOf(authorization) === -1) {
     const bearer = authorization.split(' ');
 
