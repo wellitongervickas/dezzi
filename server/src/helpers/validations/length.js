@@ -1,13 +1,13 @@
-// const validator = require('validator');
-
-const length = (value = '', options) => {
-  if (!options) {
-    return true;
-  }
-
+const length = (value, options) => {
   if (['', undefined, null].indexOf(value) > -1) {
     return true;
   }
+
+  if (!options || (!options.max && !options.min)) {
+    return true;
+  }
+
+  const text = String(value).length;
 
   const {
     min,
@@ -19,31 +19,31 @@ const length = (value = '', options) => {
   const useMin = typeof min === 'number';
 
   if (!useMax && useMin) {
-    if (!equals && value <= min) {
+    if (!equals && text <= min) {
       return true;
     }
 
-    if (equals && value < min) {
+    if (equals && text < min) {
       return true;
     }
   }
 
   if (!useMin && useMax) {
-    if (!equals && value >= max) {
+    if (!equals && text >= max) {
       return true;
     }
 
-    if (equals && value > max) {
+    if (equals && text > max) {
       return true;
     }
   }
 
   if (useMax && useMin) {
-    if (!equals && (value >= max || value <= min)) {
+    if (!equals && (text >= max || text <= min)) {
       return true;
     }
 
-    if (equals && (value > max || value < min)) {
+    if (equals && (text > max || text < min)) {
       return true;
     }
   }
@@ -73,7 +73,7 @@ length.message = (_value, options = {}) => {
     return prefixGreaterThan;
   }
 
-  if (max >= 0 && min >= 0) {
+  if (max >= 0 || min >= 0) {
     return prefixAndGreaterThan;
   }
 

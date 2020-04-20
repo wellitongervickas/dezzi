@@ -45,27 +45,37 @@ describe('Helpers Validations Length', () => {
   });
 
   it('should return false on valid length values', () => {
-    expect(length(4, { min: 3 })).toBe(false);
-    expect(length(3, { min: 3, equals: true })).toBe(false);
+    expect(length("jellow", { min: 3 })).toBe(false);
+    expect(length("wow", { min: 3, equals: true })).toBe(false);
 
-    expect(length(2, { max: 3 })).toBe(false);
-    expect(length(3, { max: 3, equals: true })).toBe(false);
+    expect(length("hi", { max: 3 })).toBe(false);
+    expect(length("die", { max: 3, equals: true })).toBe(false);
 
-    expect(length(4, { max: 5, min: 3 })).toBe(false);
-    expect(length(5, { max: 5, min: 3, equals: true })).toBe(false);
+    expect(length("samy", { max: 5, min: 3 })).toBe(false);
+    expect(length("bulle", { max: 5, min: 3, equals: true })).toBe(false);
+
+    expect(length("wow", { max: 3, min: 3, equals: true })).toBe(false);
   });
 
   it('should return true on wrong length values', () => {
+    expect(length()).toBe(true);
+    expect(length([])).toBe(true);
+    expect(length(null)).toBe(true);
+    expect(length(undefined)).toBe(true);
+    expect(length(0, {})).toBe(true);
+    expect(length({})).toBe(true);
+
+
     expect(length(2)).toBe(true);
 
     expect(length(3, { min: 3 })).toBe(true);
-    expect(length(2, { min: 3, equals: true })).toBe(true);
+    expect(length("hi", { min: 3, equals: true })).toBe(true);
 
-    expect(length(4, { max: 3 })).toBe(true);
-    expect(length(4, { max: 3, equals: true })).toBe(true);
+    expect(length("play game", { max: 3 })).toBe(true);
+    expect(length("enjoy", { max: 3, equals: true })).toBe(true);
 
-    expect(length(6, { max: 5, min: 3 })).toBe(true);
-    expect(length(2, { max: 5, min: 3, equals: true })).toBe(true);
+    expect(length("hi", { max: 5, min: 3 })).toBe(true);
+    expect(length("hello my dear", { max: 5, min: 3, equals: true })).toBe(true);
   });
 
 });

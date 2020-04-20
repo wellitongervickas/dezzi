@@ -7,6 +7,10 @@ const blank = (value = '') => {
     return true;
   }
 
+  if (!Array.isArray(value) && typeof value === 'object' && !Object.keys(value).length) {
+    return true;
+  }
+
   return false;
 };
 
