@@ -16,6 +16,7 @@ describe('Helpers Validations Blank', () => {
     expect(blank([])).toEqual(true);
     expect(blank(null)).toEqual(true);
     expect(blank(undefined)).toEqual(true);
+    expect(blank({})).toEqual(true);
   });
 
   it('should return false on valid values', () => {
@@ -24,5 +25,6 @@ describe('Helpers Validations Blank', () => {
     expect(blank([''])).toEqual(false);
     expect(blank(true)).toEqual(false);
     expect(blank(false)).toEqual(false);
+    expect(blank({ ok: true })).toEqual(false);
   });
 });
