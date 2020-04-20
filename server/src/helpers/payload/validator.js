@@ -6,13 +6,23 @@ const validator = (payload, config = {}) => {
   Object.keys(config)
     .forEach((key) => {
       if (!Array.isArray(config[key])) {
-        errors[key] = validator(payload[key], config[key]);
+        const error = validator(payload[key], config[key]);
+
+        if (error && Object.keys(error).length) {
+          errors[key] = error;
+        }
+
         return;
       }
 
       config[key].forEach((conf) => {
         if (conf.childrens) {
-          errors[key] = payload[key].map(item => validator(item, conf.childrens));
+          const error = payload[key].map(item => validator(item, conf.childrens));
+
+          if (error && error.length) {
+            errors[key] = error;
+          }
+
           return;
         }
 

@@ -44,6 +44,7 @@ describe('Helpers Payload Validator', () => {
 
   it('should have errors on complex payload object', () => {
     const payload = {
+      job: {},
       user: {
         name: '',
         age: '',
@@ -61,6 +62,9 @@ describe('Helpers Payload Validator', () => {
     };
 
     const validations = {
+      job: [{
+        type: 'blank',
+      }],
       user: {
         name: [{
           type: 'blank',
@@ -93,6 +97,10 @@ describe('Helpers Payload Validator', () => {
     };
 
     expect(validator(payload, validations)).toEqual({
+      job: {
+        type: 'blank',
+        message: 'Não pode ficar em branco',
+      },
       user: {
         name: {
           type: 'blank',
@@ -124,5 +132,27 @@ describe('Helpers Payload Validator', () => {
         },
       }, {}],
     });
+  });
+
+  it('should havent errors with valid request payload', () => {
+    const payload = {
+      user: {
+        name: 'Welliton',
+        age: '12',
+      },
+    };
+
+    const validations = {
+      user: {
+        name: [{
+          type: 'blank',
+        }],
+        age: [{
+          type: 'blank',
+        }],
+      },
+    };
+
+    expect(validator(payload, validations)).toEqual({});
   });
 });
