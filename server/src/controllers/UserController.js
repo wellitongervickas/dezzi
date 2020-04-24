@@ -9,6 +9,4 @@ router.post('/', middlewareValidator({
   body: User.validations,
 }), UserServices.createUser);
 
-router.get('/', UserServices.getUsers);
-
 module.exports = router;

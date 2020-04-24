@@ -15,6 +15,7 @@ const UserServices = {
         .then((user) => {
           if (user) {
             return res.status(422).send({
+              type: 'exists',
               message: 'Usuário já existe',
             });
           }
@@ -34,10 +35,6 @@ const UserServices = {
     } catch (error) {
       return res.status(500).send();
     }
-  },
-
-  getUsers: async (req, res) => {
-    return res.send({ getUsers: true });
   },
 };
 

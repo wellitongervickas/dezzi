@@ -24,9 +24,9 @@ describe('Helpers Middlewares Validator', () => {
     };
 
     const validations = {
-      first_name: [{
+      first_name: {
         type: 'blank',
-      }],
+      },
     };
 
     const segment = 'body';
@@ -48,9 +48,9 @@ describe('Helpers Middlewares Validator', () => {
     };
 
     const validations = {
-      first_name: [{
+      first_name: {
         type: 'blank',
-      }],
+      },
     };
 
     const segment = 'body';
@@ -78,14 +78,14 @@ describe('Helpers Middlewares Validator', () => {
 
     const validations = {
       body: {
-        first_name: [{
+        first_name: {
           type: 'blank',
-        }],
+        },
       },
       header: {
-        authorization: [{
+        authorization: {
           type: 'blank',
-        }],
+        },
       },
     };
 

@@ -1,8 +1,8 @@
-const express = require('express');
-const BillingServices = require('../services/BillingServices');
+// const express = require('express');
+// const BillingServices = require('../services/BillingServices');
 
-const router = express.Router();
+// const router = express.Router();
 
-router.get('/', BillingServices.getBillings);
+// router.get('/', BillingServices.getBillings);
 
-module.exports = router;
+// module.exports = router;

@@ -1,7 +1,7 @@
-const ContactServices = {
-  getContacts: (_req, res) => {
-    return res.send({ getContacts: true });
-  },
-};
+// const ContactServices = {
+//   getContacts: (_req, res) => {
+//     return res.send({ getContacts: true });
+//   },
+// };
 
-module.exports = ContactServices;
+// module.exports = ContactServices;
