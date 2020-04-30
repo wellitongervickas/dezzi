@@ -3,6 +3,16 @@ const supertest = require('supertest');
 const app = require('../../../src/app');
 const conn = require('../../../src/database/conn');
 
+const {
+  USER_INVALID,
+  EMAIL_ALREADY_EXISTS,
+  VALUE_REQUIRED,
+  EMAIL_VALID,
+  PASSWORD_LENGTH,
+} = require('../../../src/config/constants/errors');
+
+const replaceText = require('../../../src/helpers/text/replace-text');
+
 const request = supertest(app);
 
 describe('Controller User', () => {
@@ -54,7 +64,7 @@ describe('Controller User', () => {
         expect(res.status).toBe(422);
         expect(res.body).toEqual({
           errors: [{
-            message: 'E-mail already exists',
+            message: EMAIL_ALREADY_EXISTS,
             param: 'email',
             in: 'body',
           }],
@@ -74,15 +84,15 @@ describe('Controller User', () => {
 
     const expectedBody = {
       errors: [{
-        message: 'Value is required',
+        message: VALUE_REQUIRED,
         param: 'first_name',
         in: 'body',
       }, {
-        message: 'Value is required',
+        message: VALUE_REQUIRED,
         param: 'last_name',
         in: 'body',
       }, {
-        message: 'E-mail must be valid',
+        message: EMAIL_VALID,
         param: 'email',
         in: 'body',
       }, {
@@ -158,11 +168,11 @@ describe('Controller User', () => {
         expect(res.status).toBe(422);
         expect(res.body).toEqual({
           errors: [{
-            message: 'E-mail must be valid',
+            message: EMAIL_VALID,
             param: 'email',
             in: 'body',
           }, {
-            message: 'Password must be at least 8 chars and less than 16 chars',
+            message: replaceText(PASSWORD_LENGTH, { min: 8, max: 16}),
             param: 'password',
             in: 'body',
           }],
@@ -179,7 +189,7 @@ describe('Controller User', () => {
         expect(res.body.token).not.toBeDefined();
         expect(res.body).toEqual({
           errors: [{
-            message: 'Invalid e-mail or password',
+            message: USER_INVALID,
           }],
         });
       });
@@ -194,7 +204,7 @@ describe('Controller User', () => {
         expect(res.body.token).not.toBeDefined();
         expect(res.body).toEqual({
           errors: [{
-            message: 'Invalid e-mail or password',
+            message: USER_INVALID,
           }],
         });
       });
@@ -209,7 +219,7 @@ describe('Controller User', () => {
         expect(res.body.token).not.toBeDefined();
         expect(res.body).toEqual({
           errors: [{
-            message: 'Invalid e-mail or password',
+            message: USER_INVALID,
           }],
         });
       });
