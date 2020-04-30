@@ -9,26 +9,11 @@ const User = {
     password: await bcrypt.hash(user.password || '', 10),
     uuid: uuid(),
   }),
-  validations: {
-    last_name: [{
-      type: 'blank',
-    }],
-    first_name: [{
-      type: 'blank',
-    }],
-    email: [{
-      type: 'blank',
-    }, {
-      type: 'email',
-    }],
-    password: [{
-      type: 'blank',
-    }, {
-      type: 'length',
-      equals: true,
+  SchemaValidation: {
+    password: {
       min: 8,
       max: 16,
-    }],
+    }
   },
 };
 

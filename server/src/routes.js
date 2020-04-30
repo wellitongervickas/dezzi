@@ -1,6 +1,4 @@
 const UserController = require('./controllers/UserController');
-// const ContactController = require('./controllers/ContactController');
-// const BillingController = require('./controllers/BillingController');
 
 const routes = app => {
   [{

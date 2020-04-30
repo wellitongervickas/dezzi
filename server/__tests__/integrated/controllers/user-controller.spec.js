@@ -1,6 +1,6 @@
+const faker = require('faker');
 const supertest = require('supertest');
 const app = require('../../../src/app');
-const faker = require('faker');
 const conn = require('../../../src/database/conn');
 
 const request = supertest(app);
@@ -13,10 +13,6 @@ describe('Controller User', () => {
 
   afterAll(async() => {
     await conn.destroy();
-  });
-
-  it('should', () => {
-    expect(true).toBe(true);
   });
 
   it('should create a new user without errors', async done => {
@@ -57,10 +53,11 @@ describe('Controller User', () => {
       .then((res) => {
         expect(res.status).toBe(422);
         expect(res.body).toEqual({
-          errors: {
-            type: 'exists',
-            message: 'Usuário já existe',
-          },
+          errors: [{
+            message: 'E-mail already exists',
+            param: 'email',
+            in: 'body',
+          }],
         });
       });
 
@@ -76,24 +73,23 @@ describe('Controller User', () => {
     }
 
     const expectedBody = {
-      errors: {
-        first_name: {
-          type: 'blank',
-          message: 'Não pode ficar em branco',
-        },
-        last_name: {
-          type: 'blank',
-          message: 'Não pode ficar em branco',
-        },
-        password: {
-          type: 'length',
-          message: 'Deve ser maior que 8 e menor que 16',
-        },
-        email: {
-          type: 'email',
-          message: 'Não é um e-mail válido',
-        },
-      },
+      errors: [{
+        message: 'Value is required',
+        param: 'first_name',
+        in: 'body',
+      }, {
+        message: 'Value is required',
+        param: 'last_name',
+        in: 'body',
+      }, {
+        message: 'E-mail must be valid',
+        param: 'email',
+        in: 'body',
+      }, {
+        message: 'Password must be at least 8 chars and less than 16 chars',
+        param: 'password',
+        in: 'body',
+      }],
     };
 
     await request.post('/users')

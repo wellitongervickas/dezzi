@@ -7,7 +7,6 @@ describe('Models User', () => {
   it('should be defined', () => {
     expect(User).toBeDefined();
     expect(User.create).toBeDefined();
-    expect(User.validations).toBeDefined();
   });
 
   it('should create User model', async () => {
@@ -30,29 +29,5 @@ describe('Models User', () => {
 
     const matchedPass = await bcrypt.compare(password, createdUser.password);
     expect(matchedPass).toBe(true);
-  });
-
-  it('should have user validations', () => {
-    expect(User.validations).toMatchObject({
-      last_name: [{
-        type: 'blank',
-      }],
-      first_name: [{
-        type: 'blank',
-      }],
-      email: [{
-        type: 'blank',
-      }, {
-        type: 'email',
-      }],
-      password: [{
-        type: 'blank',
-      }, {
-        type: 'length',
-        equals: true,
-        min: 8,
-        max: 16,
-      }],
-    });
   });
 });
