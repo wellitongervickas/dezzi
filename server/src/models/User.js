@@ -9,6 +9,7 @@ const User = {
     password: await bcrypt.hash(user.password || '', 10),
     uuid: uuid(),
   }),
+
   SchemaValidation: {
     password: {
       min: 8,
