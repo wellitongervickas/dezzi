@@ -7,6 +7,11 @@ const User = require('../models/User');
 const jwt = require('../helpers/api/jwt');
 
 const {
+  USER_INVALID,
+  EMAIL_ALREADY_EXISTS,
+} = require('../config/constants/errors');
+
+const {
   errorParse,
   errorsParse,
 } = require('../helpers/api/response');
@@ -48,7 +53,7 @@ const UserServices = {
         .findUserByEmail(req.body.email)
         .then((user) => user && res.status(422).json({
           errors: [errorParse({
-            msg: 'E-mail already exists',
+            msg: EMAIL_ALREADY_EXISTS,
             param: 'email',
             location: 'body',
           })],
@@ -98,7 +103,7 @@ const UserServices = {
       if (!user || !validUser) {
         return res.status(404).json({
           errors: [errorParse({
-            msg: 'Invalid e-mail or password',
+            msg: USER_INVALID,
           })],
         });
       }

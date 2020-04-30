@@ -4,6 +4,14 @@ const { check } = require('express-validator');
 const UserServices = require('../services/UserServices');
 
 const {
+  VALUE_REQUIRED,
+  EMAIL_VALID,
+  PASSWORD_LENGTH,
+} = require('../config/constants/errors');
+
+const replaceText = require('../helpers/text/replace-text');
+
+const {
   SchemaValidation
 } = require('../models/User');
 
@@ -15,15 +23,15 @@ const passwordSchemas = {
 const router = express.Router();
 
 router.post('/', [
-  check('first_name').notEmpty().withMessage('Value is required'),
-  check('last_name').notEmpty().withMessage('Value is required'),
-  check('email').isEmail().withMessage('E-mail must be valid'),
-  check('password').isLength(passwordSchemas).withMessage('Password must be at least 8 chars and less than 16 chars'),
+  check('first_name').notEmpty().withMessage(VALUE_REQUIRED),
+  check('last_name').notEmpty().withMessage(VALUE_REQUIRED),
+  check('email').isEmail().withMessage(EMAIL_VALID),
+  check('password').isLength(passwordSchemas).withMessage(replaceText(PASSWORD_LENGTH, passwordSchemas)),
 ], UserServices.createUser);
 
 router.get('/auth', [
-  check('email').isEmail().withMessage('E-mail must be valid'),
-  check('password').isLength(passwordSchemas).withMessage('Password must be at least 8 chars and less than 16 chars'),
+  check('email').isEmail().withMessage(EMAIL_VALID),
+  check('password').isLength(passwordSchemas).withMessage(replaceText(PASSWORD_LENGTH, passwordSchemas)),
 ], UserServices.authUser);
 
 module.exports = router;
