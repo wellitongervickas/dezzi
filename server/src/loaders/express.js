@@ -2,6 +2,7 @@ const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
 const dotEnv = require('dotenv');
+
 const environments = require('../config/environments');
 
 const expressLoader = {
