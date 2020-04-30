@@ -45,7 +45,7 @@ describe('Controller User', () => {
       .send(user)
       .then((res) => {
         expect(res.status).toBe(200);
-        expect(res.body.token).not.toBeNull();
+        expect(res.body.token).toBeDefined();
       });
 
     await request.post('/users')
@@ -104,6 +104,114 @@ describe('Controller User', () => {
       .then((res) => {
         expect(res.status).toBe(422);
         expect(res.body).toEqual(expectedBody);
+      });
+
+    done();
+  });
+
+  it('should authenticate user without erros', async done => {
+    const user = {
+      first_name: faker.name.firstName(),
+      last_name: faker.name.lastName(),
+      password: faker.internet.password(8),
+      email: faker.internet.email(),
+    }
+
+    await request.post('/users')
+      .send(user)
+      .then((res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.token).toBeDefined();
+      });
+
+    await request.get('/users/auth')
+      .send({
+        email: user.email,
+        password: user.password,
+      })
+      .then((res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.token).toBeDefined();
+      });
+
+    done();
+  });
+
+  it('should have erros with invalid authentication values', async done => {
+    const user = {
+      first_name: faker.name.firstName(),
+      last_name: faker.name.lastName(),
+      password: faker.internet.password(8),
+      email: faker.internet.email(),
+    }
+
+    await request.post('/users')
+      .send(user)
+      .then((res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.token).toBeDefined();
+      });
+
+    await request.get('/users/auth')
+      .send()
+      .then((res) => {
+        expect(res.status).toBe(422);
+        expect(res.body).toEqual({
+          errors: [{
+            message: 'E-mail must be valid',
+            param: 'email',
+            in: 'body',
+          }, {
+            message: 'Password must be at least 8 chars and less than 16 chars',
+            param: 'password',
+            in: 'body',
+          }],
+        });
+      });
+
+    await request.get('/users/auth')
+      .send({
+        password: faker.internet.password(8),
+        email: faker.internet.email(),
+      })
+      .then((res) => {
+        expect(res.status).toBe(404);
+        expect(res.body.token).not.toBeDefined();
+        expect(res.body).toEqual({
+          errors: [{
+            message: 'Invalid e-mail or password',
+          }],
+        });
+      });
+
+    await request.get('/users/auth')
+      .send({
+        password: user.password,
+        email: faker.internet.email(),
+      })
+      .then((res) => {
+        expect(res.status).toBe(404);
+        expect(res.body.token).not.toBeDefined();
+        expect(res.body).toEqual({
+          errors: [{
+            message: 'Invalid e-mail or password',
+          }],
+        });
+      });
+
+    await request.get('/users/auth')
+      .send({
+        password: faker.internet.password(15),
+        email: user.email,
+      })
+      .then((res) => {
+        expect(res.status).toBe(404);
+        expect(res.body.token).not.toBeDefined();
+        expect(res.body).toEqual({
+          errors: [{
+            message: 'Invalid e-mail or password',
+          }],
+        });
       });
 
     done();

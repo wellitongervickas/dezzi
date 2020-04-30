@@ -1,9 +1,11 @@
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
 
 const conn = require('../database/conn');
 const User = require('../models/User');
 
 const jwt = require('../helpers/api/jwt');
+
 const {
   errorParse,
   errorsParse,
@@ -42,7 +44,7 @@ const UserServices = {
         return res.status(422).json(errorsParse(errors.array()));
       }
 
-      UserServices
+      await UserServices
         .findUserByEmail(req.body.email)
         .then((user) => user && res.status(422).json({
           errors: [errorParse({
@@ -67,6 +69,49 @@ const UserServices = {
       return res.status(500).send();
     }
   },
+
+  /**
+   * @name AuthUser
+   *
+   * @param {string} email user email
+   * @param {string} password user password
+   *
+   * @public
+   */
+
+  authUser: async (req, res) => {
+    try {
+       const errors = validationResult(req);
+
+       if (!errors.isEmpty()) {
+         return res.status(422).json(errorsParse(errors.array()));
+       }
+
+       const {
+         email,
+         password,
+       } = req.body;
+
+      const user = await UserServices.findUserByEmail(email);
+      const validUser = await bcrypt.compare(password, user && user.password || '');
+
+      if (!user || !validUser) {
+        return res.status(404).json({
+          errors: [errorParse({
+            msg: 'Invalid e-mail or password',
+          })],
+        });
+      }
+
+      return res.json({
+        token: jwt.generator({
+          uuid: user.uuid,
+        }),
+      });
+    } catch (error) {
+      return res.status(500).send();
+    }
+  }
 };
 
 module.exports = UserServices;

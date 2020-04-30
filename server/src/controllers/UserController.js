@@ -21,4 +21,9 @@ router.post('/', [
   check('password').isLength(passwordSchemas).withMessage('Password must be at least 8 chars and less than 16 chars'),
 ], UserServices.createUser);
 
+router.get('/auth', [
+  check('email').isEmail().withMessage('E-mail must be valid'),
+  check('password').isLength(passwordSchemas).withMessage('Password must be at least 8 chars and less than 16 chars'),
+], UserServices.authUser);
+
 module.exports = router;
