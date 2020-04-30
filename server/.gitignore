@@ -3,6 +3,7 @@ node_modules
 
 # SQLite
 db.sqlite
+test.sqlite
 
 # local env files
 .env*
