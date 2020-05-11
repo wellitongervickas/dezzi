@@ -19,6 +19,14 @@ const paramSchemas = {
   uuid: param('uuid')
     .notEmpty()
     .withMessage(errors.VALUE_REQUIRED),
+
+  user_uuid: param('user_uuid')
+    .notEmpty()
+    .withMessage(errors.VALUE_REQUIRED),
+
+  contact_uuid: param('contact_uuid')
+    .notEmpty()
+    .withMessage(errors.VALUE_REQUIRED),
 }
 
 const bodySchemas = {
@@ -41,6 +49,10 @@ const bodySchemas = {
   password: check('password')
     .isLength(passwordSchemas)
     .withMessage(replaceText(errors.PASSWORD_LENGTH, passwordSchemas)),
+
+  value: check('value')
+    .notEmpty()
+    .withMessage(errors.VALUE_REQUIRED),
 }
 
 const getSchemas = (validations = [] , schemas = {}) => {

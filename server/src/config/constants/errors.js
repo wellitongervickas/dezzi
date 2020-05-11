@@ -16,6 +16,8 @@ const errors = {
   TOKEN_REQUIRED: 'Token not provided',
 
   CONTACT_NOT_EXISTS: 'Contact doesnt exist',
+
+  BILLING_NOT_EXISTS: 'Billing doesnt exist',
 };
 
 module.exports = errors;

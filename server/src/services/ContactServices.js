@@ -33,7 +33,7 @@ const ContactServices = {
         .select('*')
         .where({ user_uuid: req.authenticated.uuid })
         .then((contacts) => {
-          return res.json(contacts.map(item => Contact.create(item)));
+          return res.json(contacts.map(contact => Contact.create(contact)));
         });
 
       return res.send();

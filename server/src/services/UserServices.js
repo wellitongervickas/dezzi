@@ -159,7 +159,7 @@ const UserServices = {
       await conn('users')
         .insert(UserModel)
         .then(() => {
-          return res.json({
+          return res.status(201).json({
             user: UserModel,
             token: jwt.generator({
               uuid: UserModel.uuid,

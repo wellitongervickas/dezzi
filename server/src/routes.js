@@ -1,5 +1,6 @@
 const UserController = require('./controllers/UserController');
 const ContactController = require('./controllers/ContactController');
+const BillingController = require('./controllers/BillingController');
 
 const routes = app => {
   [{
@@ -8,6 +9,9 @@ const routes = app => {
   }, {
     path: '/contacts',
     controller: ContactController,
+  }, {
+    path: '/billings',
+    controller: BillingController,
   }].forEach((route) => app.use(route.path, route.controller));
 
   app.all('*', (_req, res) => {
