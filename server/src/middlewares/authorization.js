@@ -39,7 +39,11 @@ const authorizationMiddleware = async (req, res, next) => {
     await UserServices.findUserByUUID(decoded.uuid)
       .then(user => {
         if (!user) {
-          return res.status(401).json()
+          return res.status(401).json({
+            msg: errors.USER_NOT_EXISTS,
+            param: 'authorization',
+            location: 'headers',
+          });
         }
 
         req.authenticated = {

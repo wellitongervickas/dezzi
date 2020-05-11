@@ -9,6 +9,7 @@ const jwt = require('../helpers/api/jwt');
 const {
   USER_INVALID,
   EMAIL_ALREADY_EXISTS,
+  USER_NOT_EXISTS,
 } = require('../config/constants/errors');
 
 const {
@@ -65,22 +66,66 @@ const UserServices = {
   },
 
   /**
-   * @name findUserByUUID
-   * @param {string} uuid user uuid
+   * @name updateUser
    *
-   * @public
-   */
-
-  findUserByUUID: async uuid => await conn('users').where({ uuid }).first(),
-
-  /**
-   * @name findUserByEmail
+   * @param {string} first_name user first name
+   * @param {string} last_name user last namel
    * @param {string} email user email
+   * @param {string} password user password
+   *
+   * @returns User
    *
    * @public
    */
 
-  findUserByEmail: async email => await conn('users').where({ email }).first(),
+  updateUser: async (req, res) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return res.status(422).json(errorsParse(errors.array()));
+      }
+
+      const { uuid } = req.authenticated;
+
+      await UserServices.findUserByUUID(uuid)
+        .then(async (user) => {
+          if (!user) {
+            return res.status(401).json({
+              msg: USER_NOT_EXISTS,
+              param: 'authorization',
+              location: 'headers',
+            });
+          }
+
+          await UserServices
+            .findUserByEmail(req.body.email)
+            .then((foundUser) => {
+              if (foundUser && (foundUser.uuid !== user.uuid)) {
+                return res.status(422).json(errorsParse([{
+                  msg: EMAIL_ALREADY_EXISTS,
+                  param: 'email',
+                  location: 'body',
+                }]));
+              }
+            });
+
+          const UserModel = await User.create({
+            ...req.body,
+            uuid,
+          });
+
+          await conn('users')
+            .where({ uuid })
+            .update({ ...UserModel })
+            .then(() => {
+              return res.json(UserModel);
+            });
+        });
+    } catch (error) {
+      return res.status(500).send();
+    }
+  },
 
   /**
    * @name createUser
@@ -115,6 +160,7 @@ const UserServices = {
         .insert(UserModel)
         .then(() => {
           return res.json({
+            user: UserModel,
             token: jwt.generator({
               uuid: UserModel.uuid,
             }),
@@ -124,6 +170,25 @@ const UserServices = {
       return res.status(500).send();
     }
   },
+
+  /**
+   * @name findUserByUUID
+   * @param {string} uuid user uuid
+   *
+   * @public
+   */
+
+  findUserByUUID: async (uuid) => await conn('users').where({ uuid }).first(),
+
+  /**
+   * @name findUserByEmail
+   * @param {string} email user email
+   *
+   * @public
+   */
+
+  findUserByEmail: async email => await conn('users').where({ email }).first(),
+
 };
 
 module.exports = UserServices;

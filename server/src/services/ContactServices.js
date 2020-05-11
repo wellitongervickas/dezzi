@@ -190,7 +190,7 @@ const ContactServices = {
     .where({ uuid })
     .first()
     .then((contact) => {
-      if (!contact || (contact && contact.uuid !== uuid)) {
+      if (!contact) {
         return res.status(404).send(errorsParse([{
           msg: CONTACT_NOT_EXISTS,
           param: 'uuid',

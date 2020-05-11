@@ -5,6 +5,7 @@ const errors = {
   EMAIL_ALREADY_EXISTS: 'E-mail already exists',
 
   USER_UNAUTHORIZED: 'User unauthorized',
+  USER_NOT_EXISTS: 'User doesnt exist',
   USER_ALREADY_EXISTS: 'User already exists',
   USER_INVALID: 'Invalid e-mail or password',
 
