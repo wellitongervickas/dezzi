@@ -7,7 +7,7 @@ const User = {
     last_name: user.last_name,
     email: user.email,
     password: await bcrypt.hash(user.password || '', 10),
-    uuid: uuid(),
+    uuid: user.uuid || uuid(),
   }),
 
   SchemaValidation: {

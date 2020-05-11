@@ -1,37 +1,36 @@
 const express = require('express');
-const { check } = require('express-validator');
 
 const UserServices = require('../services/UserServices');
-
-const {
-  VALUE_REQUIRED,
-  EMAIL_VALID,
-  PASSWORD_LENGTH,
-} = require('../config/constants/errors');
-
-const replaceText = require('../helpers/text/replace-text');
-
-const {
-  SchemaValidation
-} = require('../models/User');
-
-const passwordSchemas = {
-  min: SchemaValidation.password.min,
-  max: SchemaValidation.password.max,
-};
+const schemasValidations = require('../helpers/schemas/validations');
+const authorizationMiddleware = require('../middlewares/authorization');
 
 const router = express.Router();
 
 router.post('/', [
-  check('first_name').notEmpty().withMessage(VALUE_REQUIRED),
-  check('last_name').notEmpty().withMessage(VALUE_REQUIRED),
-  check('email').isEmail().withMessage(EMAIL_VALID),
-  check('password').isLength(passwordSchemas).withMessage(replaceText(PASSWORD_LENGTH, passwordSchemas)),
+  ...schemasValidations.getBodySchemas([
+    'first_name',
+    'last_name',
+    'email',
+    'password',
+  ]),
 ], UserServices.createUser);
 
 router.get('/auth', [
-  check('email').isEmail().withMessage(EMAIL_VALID),
-  check('password').isLength(passwordSchemas).withMessage(replaceText(PASSWORD_LENGTH, passwordSchemas)),
+  ...schemasValidations.getBodySchemas([
+    'email',
+    'password',
+  ]),
 ], UserServices.authUser);
+
+router.put('/', [
+  authorizationMiddleware,
+
+  ...schemasValidations.getBodySchemas([
+    'first_name',
+    'last_name',
+    'email',
+    'password',
+  ]),
+], UserServices.updateUser);
 
 module.exports = router;

@@ -96,7 +96,7 @@ describe('Controller User', () => {
         param: 'email',
         in: 'body',
       }, {
-        message: 'Password must be at least 8 chars and less than 16 chars',
+        message: replaceText(PASSWORD_LENGTH, { min: 8, max: 16}),
         param: 'password',
         in: 'body',
       }],
