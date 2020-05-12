@@ -5,4 +5,4 @@ const demonetization = (value = '') => {
 
 module.exports = {
   demonetization,
-}
+};

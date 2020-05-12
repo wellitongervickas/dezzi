@@ -12,6 +12,10 @@ const {
   CONTACT_NOT_EXISTS,
 } = require('../config/constants/errors');
 
+const {
+  handlerService,
+} = require('../helpers/services/handler');
+
 const ContactServices = {
   /**
    * @name index
@@ -21,26 +25,15 @@ const ContactServices = {
    * @public
    */
 
-  index: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  index: (req, res) => {
+    return handlerService(req, res, async () => {
       await conn('contacts')
         .select('*')
         .where({ user_uuid: req.authenticated.uuid })
         .then((contacts) => {
           return res.json(contacts.map(contact => Contact.create(contact)));
         });
-
-      return res.send();
-
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -51,23 +44,15 @@ const ContactServices = {
    * @public
    */
 
-  getContact: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  getContact: (req, res) => {
+    return handlerService(req, res, async () => {
       const { uuid } = req.params;
 
       await ContactServices.findContactByUUID(req, res, uuid)
         .then((contact) => {
           return res.json(Contact.create(contact));
         });
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -83,14 +68,8 @@ const ContactServices = {
    * @public
    */
 
-  updateContact: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  updateContact: (req, res) => {
+    return handlerService(req, res, async () => {
       const { uuid } = req.params;
 
       await ContactServices.findContactByUUID(req, res, uuid)
@@ -107,10 +86,7 @@ const ContactServices = {
               return res.json(contact);
             });
         });
-
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -126,14 +102,8 @@ const ContactServices = {
    * @public
    */
 
-  createContact: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  createContact: (req, res) => {
+    return handlerService(req, res, async () => {
       const ContactModel = Contact.create(req.body);
 
       await conn('contacts')
@@ -142,9 +112,7 @@ const ContactServices = {
           user_uuid: req.authenticated.uuid,
         })
         .then(() => res.status(201).json(ContactModel));
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -155,14 +123,8 @@ const ContactServices = {
    * @public
    */
 
-  deleteContact: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  deleteContact: (req, res) => {
+    return handlerService(req, res, async () => {
       const { uuid } = req.params;
 
       await ContactServices.findContactByUUID(req, res, uuid)
@@ -171,9 +133,7 @@ const ContactServices = {
             return res.json({ uuid });
           });
         });
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
