@@ -1,5 +1,14 @@
 # Dezzi server (node + express + knex)
 
+## Routes
+
+| Path | Allowed Methods | Params |
+|--|--|--|
+| /users | post, put  | `` |
+| /users/auth | get | `` |
+| /contacts | get, post, put, delete  | `contact_uuid` |
+| /billings | get, post, put, delete  | `contact_uuid, billing_uuid` |
+
 ## Environment Variables
 
 | Variable | Description | Default Value |
