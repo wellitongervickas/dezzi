@@ -1,4 +1,3 @@
-const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 const conn = require('../database/conn');
@@ -16,6 +15,9 @@ const {
   errorsParse,
 } = require('../helpers/api/response');
 
+const {
+  handlerService
+} = require('../helpers/services/handler');
 
 const UserServices = {
   /**
@@ -27,14 +29,8 @@ const UserServices = {
    * @public
    */
 
-  authUser: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  authUser: (req, res) => {
+    return handlerService(req, res, async () => {
       const {
         email,
         password,
@@ -47,22 +43,24 @@ const UserServices = {
         return res.status(404).json(errorsParse([{
           msg: USER_INVALID,
           param: 'email',
-          in: 'body'
+          location: 'body'
         }, {
           msg: USER_INVALID,
           param: 'password',
-          in: 'body'
+          location: 'body'
         }]));
       }
 
+      const UserModel = await User.create(user);
+      delete UserModel.password;
+
       return res.json({
+        user: { ...UserModel },
         token: jwt.generator({
           uuid: user.uuid,
         }),
       });
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -78,14 +76,8 @@ const UserServices = {
    * @public
    */
 
-  updateUser: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  updateUser: (req, res) => {
+    return handlerService(req, res, async () => {
       const { uuid } = req.authenticated;
 
       await UserServices.findUserByUUID(uuid)
@@ -119,12 +111,12 @@ const UserServices = {
             .where({ uuid })
             .update({ ...UserModel })
             .then(() => {
-              return res.json(UserModel);
+              delete UserModel.password;
+
+              return res.json({ ...UserModel });
             });
         });
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -138,37 +130,34 @@ const UserServices = {
    * @public
    */
 
-  createUser: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  createUser: (req, res) => {
+    return handlerService(req, res, async () => {
       await UserServices
         .findUserByEmail(req.body.email)
-        .then((user) => user && res.status(422).json(errorsParse([{
-          msg: EMAIL_ALREADY_EXISTS,
-          param: 'email',
-          location: 'body',
-        }])));
+        .then(async (user) => {
+          if (user) {
+            return res.status(422).json(errorsParse([{
+              msg: EMAIL_ALREADY_EXISTS,
+              param: 'email',
+              location: 'body',
+            }]));
+          }
 
-      const UserModel = await User.create(req.body);
+          const UserModel = await User.create(req.body);
 
-      await conn('users')
-        .insert(UserModel)
-        .then(() => {
-          return res.status(201).json({
-            user: UserModel,
-            token: jwt.generator({
-              uuid: UserModel.uuid,
-            }),
-          });
+          await conn('users')
+            .insert(UserModel)
+            .then(() => {
+              delete UserModel.password;
+              return res.status(201).json({
+                user: { ...UserModel },
+                token: jwt.generator({
+                  uuid: UserModel.uuid,
+                }),
+              });
+            });
         });
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**

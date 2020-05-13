@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid').v1;
 
 const User = {
-  create: async (user = {}) => ({
+  create: async (user) => [null, undefined].indexOf(user) > -1 ? {} : ({
     first_name: user.first_name,
     last_name: user.last_name,
     email: user.email,

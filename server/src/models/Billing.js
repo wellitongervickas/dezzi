@@ -4,10 +4,12 @@ const {
 } = require('../helpers/sanitizers/monetization');
 
 const Billing = {
-  create: (billing = {}) => ({
+  create: (billing) => [null, undefined].indexOf(billing) > -1 ? {} : ({
     value: demonetization(billing.value),
-    uuid: billing.uuid || uuid(),
+    uuid: billing && billing.uuid || uuid(),
   }),
 };
+
+Object.freeze(Billing);
 
 module.exports = Billing;

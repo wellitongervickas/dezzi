@@ -12,6 +12,10 @@ const {
   BILLING_NOT_EXISTS,
 } = require('../config/constants/errors');
 
+const {
+  handlerService,
+} = require('../helpers/services/handler');
+
 const BillingServices = {
   /**
    * @name index
@@ -23,14 +27,8 @@ const BillingServices = {
    * @public
    */
 
-  index: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  index: (req, res) => {
+    return handlerService(req, res, async () => {
       const { uuid } = req.authenticated;
       const { contact_uuid } = req.params;
 
@@ -38,9 +36,7 @@ const BillingServices = {
         .then((billings) => {
           return res.json(billings.map(billing => Billing.create(billing)))
         });
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -55,14 +51,8 @@ const BillingServices = {
    */
 
 
-  getBilling: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  getBilling: (req, res) => {
+    return handlerService(req, res, async () => {
       const user_uuid = req.authenticated.uuid;
       const { contact_uuid, uuid } = req.params;
 
@@ -70,10 +60,7 @@ const BillingServices = {
         .then((biling) => {
           return res.json(Billing.create(biling));
         });
-
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -87,14 +74,8 @@ const BillingServices = {
    * @public
    */
 
-  updateBilling: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  updateBilling: (req, res) => {
+    return handlerService(req, res, async () => {
       const user_uuid = req.authenticated.uuid;
       const { contact_uuid, uuid } = req.params;
 
@@ -112,10 +93,7 @@ const BillingServices = {
               return res.json(billing);
             });
         });
-
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -129,13 +107,7 @@ const BillingServices = {
    */
 
   createBilling: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+    return handlerService(req, res, async () => {
       const BillingModel = Billing.create(req.body);
 
       await conn('billings')
@@ -145,10 +117,7 @@ const BillingServices = {
           contact_uuid: req.params.contact_uuid,
         })
         .then(() => res.status(201).json(BillingModel));
-
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
@@ -162,14 +131,8 @@ const BillingServices = {
    * @public
    */
 
-  deleteBilling: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(422).json(errorsParse(errors.array()));
-      }
-
+  deleteBilling: (req, res) => {
+    return handlerService(req, res, async () => {
       const user_uuid = req.authenticated.uuid;
       const { contact_uuid, uuid } = req.params;
 
@@ -179,9 +142,7 @@ const BillingServices = {
             return res.json({ uuid });
           });
         });
-    } catch (error) {
-      return res.status(500).send();
-    }
+    });
   },
 
   /**
