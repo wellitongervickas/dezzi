@@ -1,7 +1,7 @@
 const uuid = require('uuid').v1;
 
 const Contact = {
-  create: (contact = {}) => ({
+  create: (contact) => [null, undefined].indexOf(contact) > -1 ? {} : ({
     first_name: contact.first_name,
     last_name: contact.last_name,
     email: contact.email,

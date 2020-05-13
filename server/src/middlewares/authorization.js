@@ -49,9 +49,9 @@ const authorizationMiddleware = async (req, res, next) => {
         req.authenticated = {
           ...user,
         };
-
-        return next();
       });
+
+    return next();
   } catch (error) {
     return res.status(500).send();
   }

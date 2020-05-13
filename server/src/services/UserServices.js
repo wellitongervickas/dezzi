@@ -43,11 +43,11 @@ const UserServices = {
         return res.status(404).json(errorsParse([{
           msg: USER_INVALID,
           param: 'email',
-          in: 'body'
+          location: 'body'
         }, {
           msg: USER_INVALID,
           param: 'password',
-          in: 'body'
+          location: 'body'
         }]));
       }
 
@@ -134,25 +134,28 @@ const UserServices = {
     return handlerService(req, res, async () => {
       await UserServices
         .findUserByEmail(req.body.email)
-        .then((user) => user && res.status(422).json(errorsParse([{
-          msg: EMAIL_ALREADY_EXISTS,
-          param: 'email',
-          location: 'body',
-        }])));
+        .then(async (user) => {
+          if (user) {
+            return res.status(422).json(errorsParse([{
+              msg: EMAIL_ALREADY_EXISTS,
+              param: 'email',
+              location: 'body',
+            }]));
+          }
 
-      const UserModel = await User.create(req.body);
+          const UserModel = await User.create(req.body);
 
-      await conn('users')
-        .insert(UserModel)
-        .then(() => {
-          delete UserModel.password;
-
-          return res.status(201).json({
-            user: { ...UserModel },
-            token: jwt.generator({
-              uuid: UserModel.uuid,
-            }),
-          });
+          await conn('users')
+            .insert(UserModel)
+            .then(() => {
+              delete UserModel.password;
+              return res.status(201).json({
+                user: { ...UserModel },
+                token: jwt.generator({
+                  uuid: UserModel.uuid,
+                }),
+              });
+            });
         });
     });
   },
