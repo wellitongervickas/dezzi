@@ -1,11 +1,14 @@
 import React from 'react';
+import View from 'components/Page/View';
+
+import Dashboard from 'components/Dashboard';
 
 const Users = () => (
-  <div>
-    <div>
+  <View>
+    <Dashboard>
       Users
-    </div>
-  </div>
+    </Dashboard>
+  </View>
 );
 
 export default Users;

@@ -1,0 +1,15 @@
+html {
+    font-size: 14px;
+}
+
+html, body, #root, section {
+    height: 100%;
+}
+
+#root {
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    color: inherit;
+}

@@ -5,8 +5,12 @@ import Users from 'views/users';
 
 export default [{
   name: 'login',
-  path: '/',
+  path: '/login',
   component: Login,
+}, {
+  name: 'contacts',
+  path: '/',
+  component: Contacts,
 }, {
   name: 'contacts',
   path: '/contacts',

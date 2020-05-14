@@ -1,11 +1,14 @@
 import React from 'react';
+import View from 'components/Page/View';
+
+import Dashboard from 'components/Dashboard';
 
 const Contacts = () => (
-  <div>
-    <div>
+  <View>
+    <Dashboard>
       Contacts
-    </div>
-  </div>
+    </Dashboard>
+  </View>
 );
 
 export default Contacts;

@@ -1,11 +1,14 @@
 import React from 'react';
+import View from 'components/Page/View';
+
+import Dashboard from 'components/Dashboard';
 
 const Billings = () => (
-  <div>
-    <div>
+  <View>
+    <Dashboard>
       Billings
-    </div>
-  </div>
+    </Dashboard>
+  </View>
 );
 
 export default Billings;
