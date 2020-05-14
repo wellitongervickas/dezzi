@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 import {
-  mid,
-  big,
-  monitor,
+  sm,
+  md,
 } from 'assets/stylesheets/js/sizes';
 
 import { violetDarkBlack } from 'assets/stylesheets/js/colors';
 
 export const DashboardContainer = styled.div`
-  padding: ${mid()} 0;
+  padding: ${sm()} 0;
 `;
 
 export const DashboardHeader = styled.div`
@@ -21,15 +20,11 @@ export const DashboardHeader = styled.div`
 
 export const DashboardContent = styled.div`
   display: flex;
-  margin-top: ${mid()};
+  margin-top: ${sm()};
 `;
 
 export const SidebarContainer = styled.div`
-  width: ${big(8)};
-
-  @media (max-width: ${monitor}) {
-    display: none;
-  }
+  width: ${md(6)};
 `;
 
 export const ContentContainer = styled.div`
@@ -37,10 +32,15 @@ export const ContentContainer = styled.div`
 `;
 
 export const NavbarContainer = styled.div`
+  display: flex;
+
+  & > * {
+    padding: 0 ${sm()};
+    border-right: 1px solid ${violetDarkBlack};
+  }
+
   & > :last-child {
-    margin-left: ${mid()};
-    padding-left: ${mid()};
-    border-left: 1px solid ${violetDarkBlack};
+    border: none;
   }
 `;
 

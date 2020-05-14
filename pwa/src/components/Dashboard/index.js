@@ -11,6 +11,7 @@ import {
   DashboardContent,
   DashboardHeader,
 } from 'components/Dashboard/styles';
+import Visible from 'components/Page/Visible';
 
 const Dashboard = ({ children }) => (
   <DashboardContainer>
@@ -19,7 +20,9 @@ const Dashboard = ({ children }) => (
       <Navbar />
     </DashboardHeader>
     <DashboardContent>
-      <Sidebar />
+      <Visible visible={['lg', 'xl']}>
+        <Sidebar />
+      </Visible>
       <Content>
         {children}
       </Content>

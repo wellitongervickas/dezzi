@@ -12,4 +12,5 @@ html, body, #root, section {
 
 a {
     color: inherit;
+    text-decoration: none;
 }

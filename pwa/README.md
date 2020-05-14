@@ -15,4 +15,4 @@
 
 ## WSL / windows + ubuntu
 
-export PATH=$PATH:/mnt/c/Windows/System32
+PATH=$PATH:/mnt/c/Windows/System32
