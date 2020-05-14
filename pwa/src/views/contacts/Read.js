@@ -2,14 +2,13 @@ import React from 'react';
 import View from 'components/Page/View';
 
 import Dashboard from 'components/Dashboard';
-import FontsTitle from 'components/Fonts/Title';
 
-const Users = () => (
+const ContactsRead = () => (
   <View>
     <Dashboard>
-      <FontsTitle label="Profile" />
+      ContactsRead
     </Dashboard>
   </View>
 );
 
-export default Users;
+export default ContactsRead;

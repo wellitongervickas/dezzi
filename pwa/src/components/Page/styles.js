@@ -12,7 +12,7 @@ export const ViewContrainer = styled.div`
   ${fluidRange(
     {
       prop: 'width',
-      fromSize: '320px',
+      fromSize: '300px',
       toSize: '1024px',
     },
     '400px',

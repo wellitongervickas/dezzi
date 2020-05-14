@@ -3,12 +3,12 @@ import View from 'components/Page/View';
 
 import Dashboard from 'components/Dashboard';
 
-const Billings = () => (
+const ContactsForm = () => (
   <View>
     <Dashboard>
-      Billings
+      ContactsForm
     </Dashboard>
   </View>
 );
 
-export default Billings;
+export default ContactsForm;

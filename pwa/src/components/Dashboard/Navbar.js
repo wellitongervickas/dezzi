@@ -27,7 +27,7 @@ const Navbar = () => (
         cursor="pointer"
       />
     </Link>
-    <Link to="/login">
+    <Link to="/auth">
       <FontAwesomeIcon
         icon={faPowerOff}
         cursor="pointer"

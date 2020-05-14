@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { sm } from 'assets/stylesheets/js/sizes';
 
 export const LoginContainer = styled.div`
@@ -11,10 +12,20 @@ export const LoginContainer = styled.div`
 
 export const LoginWrapper = styled.div`
   width: 320px;
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-bottom: ${sm()};
+  }
 
   & > :last-child {
-    margin-top: ${sm()};
+    margin-bottom: 0;
   }
+`;
+
+export const LoginNavigation = styled(Link)`
+  text-align: center;
 `;
 
 export default LoginContainer;

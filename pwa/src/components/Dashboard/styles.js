@@ -24,7 +24,12 @@ export const DashboardContent = styled.div`
 `;
 
 export const SidebarContainer = styled.div`
-  width: ${md(6)};
+  overflow: hidden;
+  width: ${md(7)};
+  margin-right: ${sm()};
+  border-radius: ${sm()};
+  background-color: ${violetDarkBlack};
+  align-self: flex-start;
 `;
 
 export const ContentContainer = styled.div`
