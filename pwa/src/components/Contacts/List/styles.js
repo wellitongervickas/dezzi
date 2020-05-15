@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import * as sizes from 'assets/stylesheets/js/sizes';
 import * as colors from 'assets/stylesheets/js/colors';
@@ -40,30 +40,27 @@ export const ContactsListItemButtons = styled.div`
   }
 `;
 
-export const ContactsListItemDetails = styled(Link)`
+export const ContactsListItemDetails = styled(NavLink)`
   flex: 1;
   display: flex;
   padding: ${sizes.sm()};
   border-radius: ${sizes.sm()};
+  flex-direction: column;
 
   & > * {
     flex: 1;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-
-    @media screen and (max-width: ${sizes.tablet}) {
-      margin-bottom: ${sizes.xs()};
-    }
+    margin-bottom: ${sizes.xs()};
   }
 
   @media screen and (max-width: ${sizes.tablet}) {
-    flex-direction: column;
     padding: 0;
   }
 
   @media (min-width: ${sizes.tablet}) {
-    &:hover {
+    &.active, &:hover {
       background-color: #eee;
     }
   }

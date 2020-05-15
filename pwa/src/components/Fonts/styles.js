@@ -15,3 +15,14 @@ export const FontsTitleContainer = styled.div`
     color: ${(props) => props.color || colors.violetDark};
   }
 `;
+
+export const FontsSubtitleContainer = styled.div`
+  margin-bottom: ${sizes.xs()};
+  padding-bottom: ${sizes.xs()};
+
+  h3 {
+    font-size: ${sizes.sm()};
+    font-weight: ${fonts.bold};
+    color: ${(props) => props.color || colors.violetDark};
+  }
+`;

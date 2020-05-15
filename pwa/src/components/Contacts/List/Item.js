@@ -8,7 +8,7 @@ import {
 
 import FormButton from 'components/Form/Button';
 
-import { defaultPropTypes, setNavLink } from 'components/Contacts/helpers';
+import { contactType, setNavLink } from 'components/Contacts/helpers';
 import { namelize } from 'helpers/text/namelize';
 import { phonelize } from 'helpers/text/phonelize';
 
@@ -21,7 +21,7 @@ import {
 const ContactsListItem = ({ contact }) => {
   const { push } = useHistory();
 
-  const onEdit = () => push(`contacts/${contact.uuid}/edit`);
+  const onEdit = () => push(`/contacts/${contact.uuid}/edit`);
   const onRemove = () => { };
 
   return (
@@ -55,7 +55,7 @@ const ContactsListItem = ({ contact }) => {
 };
 
 ContactsListItem.propTypes = {
-  ...defaultPropTypes.contacts,
+  contact: contactType.isRequired,
 };
 
 export default ContactsListItem;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  defaultPropTypes,
+  contactType,
   setNavLink,
 } from 'components/Contacts/helpers';
 
@@ -26,7 +26,7 @@ const ContactsSidebarItem = ({ contact }) => (
 );
 
 ContactsSidebarItem.propTypes = {
-  ...defaultPropTypes.contacts,
+  contact: contactType.isRequired,
 };
 
 export default ContactsSidebarItem;

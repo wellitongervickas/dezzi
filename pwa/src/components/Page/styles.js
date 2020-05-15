@@ -13,7 +13,7 @@ export const ViewContrainer = styled.div`
     {
       prop: 'width',
       fromSize: '300px',
-      toSize: '1024px',
+      toSize: sizes.tablet,
     },
     '400px',
   )}

@@ -5,6 +5,7 @@ import ContactsForm from 'views/contacts/Form';
 import ContactsRead from 'views/contacts/Read';
 
 import Users from 'views/users';
+import UsersForm from 'views/users/Form';
 
 export default [{
   name: 'login',
@@ -42,4 +43,8 @@ export default [{
   name: 'users',
   path: '/users',
   component: Users,
+}, {
+  name: 'users-edit',
+  path: '/users/edit',
+  component: UsersForm,
 }];

@@ -7,14 +7,14 @@ import Dashboard from 'components/Dashboard';
 import ContactsList from 'components/Contacts/List';
 import FormButton from 'components/Form/Button';
 
+import { defaultPropTypes } from 'components/Contacts/helpers';
+
 import {
   ContactsContainer,
   ContactsTitle,
 } from 'views/contacts/styles';
 
-const mockList = [];
-
-const Contacts = () => {
+const Contacts = ({ contacts }) => {
   const { push } = useHistory();
   const handleNew = () => push('contacts/new');
 
@@ -30,11 +30,19 @@ const Contacts = () => {
               onClick={handleNew}
             />
           </ContactsTitle>
-          <ContactsList contacts={mockList} />
+          <ContactsList contacts={contacts} />
         </ContactsContainer>
       </Dashboard>
     </View>
   );
+};
+
+ContactsList.defaultProps = {
+  contacts: [],
+};
+
+Contacts.propTypes = {
+  ...defaultPropTypes,
 };
 
 export default Contacts;

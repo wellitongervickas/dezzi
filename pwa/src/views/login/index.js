@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {
+  useState,
+  useMemo,
+} from 'react';
+
 import { useRouteMatch } from 'react-router-dom';
 
 import View from 'components/Page/View';
 import Wrapper from 'components/Wrapper';
 import Logo from 'components/Logo';
+import LoginForm from 'views/login/Form';
 
 import {
   LoginContainer,
@@ -11,10 +16,26 @@ import {
   LoginNavigation,
 } from 'views/login/styles';
 
-const Login = () => {
-  const { path } = useRouteMatch();
+import fields, {
+  register,
+} from 'views/login/Form/fields';
 
+const Login = () => {
+  const [formFields, setFields] = useState([
+    ...fields(),
+  ]);
+
+  const { path } = useRouteMatch();
   const isRegister = path.includes('register');
+
+  useMemo(() => {
+    if (isRegister) {
+      setFields((f) => [
+        ...f,
+        ...register(),
+      ]);
+    }
+  }, [isRegister]);
 
   return (
     <View>
@@ -22,7 +43,7 @@ const Login = () => {
         <LoginWrapper>
           <Logo />
           <Wrapper>
-            #Form
+            <LoginForm fields={formFields} />
           </Wrapper>
           {!isRegister ? (
             <LoginNavigation to="/auth/register">

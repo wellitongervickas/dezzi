@@ -11,6 +11,7 @@ import {
   DashboardContent,
   DashboardHeader,
 } from 'components/Dashboard/styles';
+
 import Visible from 'components/Page/Visible';
 
 const Dashboard = ({ children }) => (

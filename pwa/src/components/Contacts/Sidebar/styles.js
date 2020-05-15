@@ -30,4 +30,13 @@ export const ContactsSidebarItemName = styled.h3`
   margin-bottom: ${sizes.xs()};
 `;
 
+export const ContactsSidebarEmpty = styled.div`
+  padding: ${sizes.sm()};
+  color: ${colors.violetLight};
+  text-align: center;
+  p {
+    margin-bottom: ${sizes.sm()};
+  }
+`;
+
 export const ContactsSidebarItemPhone = styled.p``;

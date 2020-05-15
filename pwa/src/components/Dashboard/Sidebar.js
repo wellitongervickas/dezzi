@@ -4,7 +4,7 @@ import { SidebarContainer } from 'components/Dashboard/styles';
 import ContactsSidebar from 'components/Contacts/Sidebar';
 import { defaultPropTypes } from 'components/Contacts/helpers';
 
-const Sidebar = ({ contacts }) => contacts.length > 0 && (
+const Sidebar = ({ contacts }) => (
   <SidebarContainer>
     <ContactsSidebar contacts={contacts} />
   </SidebarContainer>
@@ -15,7 +15,7 @@ Sidebar.defaultProps = {
 };
 
 Sidebar.propTypes = {
-  ...defaultPropTypes.contacts,
+  ...defaultPropTypes,
 };
 
 export default Sidebar;
