@@ -25,20 +25,14 @@ export default () => [{
   placeholder: 'Please type you email',
   validations: [{
     type: 'blank',
-  }, {
-    type: 'email',
   }],
 }, {
   ...types.input,
   id: 'password',
   label: 'Password',
+  fieldType: 'password',
   placeholder: 'Please type you password',
   validations: [{
     type: 'blank',
-  }, {
-    type: 'length',
-    min: 8,
-    max: 16,
-    equals: true,
   }],
 }];

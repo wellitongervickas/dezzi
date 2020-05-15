@@ -8,7 +8,8 @@ import { useRouteMatch } from 'react-router-dom';
 import View from 'components/Page/View';
 import Wrapper from 'components/Wrapper';
 import Logo from 'components/Logo';
-import LoginForm from 'views/login/Form';
+
+import Form from 'components/Form';
 
 import {
   LoginContainer,
@@ -43,7 +44,10 @@ const Login = () => {
         <LoginWrapper>
           <Logo />
           <Wrapper>
-            <LoginForm fields={formFields} />
+            <Form
+              fields={formFields}
+              onSubmit={(e) => console.log(e)}
+            />
           </Wrapper>
           {!isRegister ? (
             <LoginNavigation to="/auth/register">

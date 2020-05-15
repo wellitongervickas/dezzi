@@ -6,7 +6,7 @@ import * as fonts from 'assets/stylesheets/js/fonts';
 import * as colors from 'assets/stylesheets/js/colors';
 import * as sizes from 'assets/stylesheets/js/sizes';
 
-export const ContactsSidebarItemContainer = styled(NavLink)`
+export const SidebarItemContainer = styled(NavLink)`
   display: flex;
   flex-direction: column;
   padding: ${sizes.sm()};
@@ -24,13 +24,13 @@ export const ContactsSidebarItemContainer = styled(NavLink)`
   }
 `;
 
-export const ContactsSidebarItemName = styled.h3`
+export const SidebarItemName = styled.h3`
   font-weight: ${fonts.bold};
   text-transform: capitalize;
   margin-bottom: ${sizes.xs()};
 `;
 
-export const ContactsSidebarEmpty = styled.div`
+export const SidebarEmptyContainer = styled.div`
   padding: ${sizes.sm()};
   color: ${colors.violetLight};
   text-align: center;
@@ -39,4 +39,4 @@ export const ContactsSidebarEmpty = styled.div`
   }
 `;
 
-export const ContactsSidebarItemPhone = styled.p``;
+export const SidebarItemPhone = styled.p``;

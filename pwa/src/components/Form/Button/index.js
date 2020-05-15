@@ -15,12 +15,14 @@ const FormButton = ({
   label,
   color,
   size,
+  type,
   onClick,
 }) => {
   const handleClick = onClick;
 
   return (
     <FormButtonContainer
+      type={type}
       color={color}
       size={size}
       onClick={handleClick}
@@ -42,14 +44,17 @@ FormButton.defaultProps = {
   label: null,
   color: 'violet',
   size: 'md',
+  type: 'button',
+  onClick: () => {},
 };
 
 FormButton.propTypes = {
+  type: PropTypes.string,
   size: PropTypes.oneOf(buttonSizes),
   icon: PropTypes.shape({}),
   color: PropTypes.string,
   label: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default FormButton;

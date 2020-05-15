@@ -26,9 +26,10 @@ export default () => [{
   }],
 }, {
   ...types.input,
-  id: 'phone',
-  label: 'Phone',
-  placeholder: 'Please type a phone',
+  id: 'password',
+  label: 'New Password',
+  fieldType: 'password',
+  placeholder: 'Please type you password',
   validations: [{
     type: 'blank',
   }],
