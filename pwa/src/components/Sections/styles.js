@@ -13,11 +13,13 @@ export const SectionsItemContainer = styled.li`
 `;
 
 export const SectionItemLabel = styled.h4`
-  color: ${colors.violetLight};
+  color: ${colors.violetDark};
   font-weight: ${fonts.bold};
-  margin-bottom: ${sizes.xs()};
+  margin-bottom: ${sizes.xs(0.5)};
 `;
 
-export const SectionItemValue = styled.p``;
+export const SectionItemValue = styled.p`
+  color: ${colors.violetLight};
+`;
 
 export default SectionsContainer;

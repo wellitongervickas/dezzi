@@ -15,7 +15,7 @@ router.post('/', [
   ]),
 ], UserServices.createUser);
 
-router.get('/auth', [
+router.post('/auth', [
   ...schemasValidations.getBodySchemas([
     'email',
     'password',

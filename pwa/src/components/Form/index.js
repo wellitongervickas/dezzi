@@ -1,5 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, {
+  useMemo,
+} from 'react';
+
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 
@@ -27,12 +30,24 @@ const RenderField = ({ type, ...rest }) => {
   return <FormInput {...rest} />;
 };
 
-const Form = ({ fields, button, onSubmit }) => {
+const Form = ({
+  fields,
+  button,
+  onSubmit,
+  formErrors,
+  loading,
+}) => {
   const {
     handleSubmit,
     register,
+    setError,
+    clearError,
     errors,
   } = useForm();
+
+  useMemo(() => {
+    formErrors.forEach((error) => setError(error.param, error.in, error.message));
+  }, [formErrors, setError]);
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -42,6 +57,8 @@ const Form = ({ fields, button, onSubmit }) => {
             key={field.id}
             field={field}
             register={register}
+            clearError={clearError}
+            loading={loading}
             error={errors[field.id]}
           />
         ))}
@@ -49,6 +66,7 @@ const Form = ({ fields, button, onSubmit }) => {
       <FormButtons>
         <FormButton
           type="submit"
+          loading={loading}
           label={button.label}
           icon={button.icon}
           color={button.color}

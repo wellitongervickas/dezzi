@@ -5,6 +5,7 @@ export default () => [{
   id: 'first_name',
   label: 'First name',
   placeholder: 'Please type a first name',
+  value: 'Gervikinha',
   validations: [{
     type: 'blank',
   }],

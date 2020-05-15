@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {
   FormButtonContainer,
@@ -7,8 +6,12 @@ import {
 } from 'components/Form/Button/styles';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-export const buttonSizes = ['xl', 'lg', 'md', 'sm', 'xs'];
+import {
+  defaultButtonProps,
+  defaultButtonPropTypes,
+} from 'components/Form/helpers';
 
 const FormButton = ({
   icon,
@@ -17,44 +20,34 @@ const FormButton = ({
   size,
   type,
   onClick,
-}) => {
-  const handleClick = onClick;
-
-  return (
-    <FormButtonContainer
-      type={type}
-      color={color}
-      size={size}
-      onClick={handleClick}
-    >
-      {icon && (
-        <FontAwesomeIcon icon={icon} />
-      )}
-      {label && (
-        <FormButtonLabel useIcon={!!icon}>
-          {label}
-        </FormButtonLabel>
-      )}
-    </FormButtonContainer>
-  );
-};
+  loading,
+}) => (
+  <FormButtonContainer
+    type={type}
+    color={color}
+    size={size}
+    onClick={onClick}
+  >
+    {loading && (
+      <FontAwesomeIcon icon={faSpinner} spin />
+    )}
+    {!loading && icon && (
+      <FontAwesomeIcon icon={icon} />
+    )}
+    {!loading && label && (
+      <FormButtonLabel useIcon={!!icon}>
+        {label}
+      </FormButtonLabel>
+    )}
+  </FormButtonContainer>
+);
 
 FormButton.defaultProps = {
-  icon: null,
-  label: null,
-  color: 'violet',
-  size: 'md',
-  type: 'button',
-  onClick: () => {},
+  ...defaultButtonProps,
 };
 
 FormButton.propTypes = {
-  type: PropTypes.string,
-  size: PropTypes.oneOf(buttonSizes),
-  icon: PropTypes.shape({}),
-  color: PropTypes.string,
-  label: PropTypes.string,
-  onClick: PropTypes.func,
+  ...defaultButtonPropTypes,
 };
 
 export default FormButton;

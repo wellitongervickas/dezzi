@@ -121,7 +121,7 @@ describe('Controller User', () => {
         expect(res.body.token).toBeDefined();
       });
 
-    await request.get('/users/auth')
+    await request.post('/users/auth')
       .send({
         email: user.email,
         password: user.password,
@@ -149,7 +149,7 @@ describe('Controller User', () => {
         expect(res.body.token).toBeDefined();
       });
 
-    await request.get('/users/auth')
+    await request.post('/users/auth')
       .send()
       .then((res) => {
         expect(res.status).toBe(422);
@@ -166,7 +166,7 @@ describe('Controller User', () => {
         });
       });
 
-    await request.get('/users/auth')
+    await request.post('/users/auth')
       .send({
         password: faker.internet.password(8),
         email: faker.internet.email(),
@@ -187,7 +187,7 @@ describe('Controller User', () => {
         });
       });
 
-    await request.get('/users/auth')
+    await request.post('/users/auth')
       .send({
         password: user.password,
         email: faker.internet.email(),
@@ -208,7 +208,7 @@ describe('Controller User', () => {
         });
       });
 
-    await request.get('/users/auth')
+    await request.post('/users/auth')
       .send({
         password: faker.internet.password(15),
         email: user.email,

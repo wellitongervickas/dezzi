@@ -26,4 +26,15 @@ export const FormInputField = styled.input`
   }
 `;
 
+export const FormInputRequired = styled.span`
+  color: ${colors.red};
+  margin-left: ${sizes.xs(0.5)};
+`;
+
+export const FormInputError = styled.span`
+  color: ${colors.red};
+  padding: ${sizes.xs()} 0;
+`;
+
+
 export default FormInputContainer;

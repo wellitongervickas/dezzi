@@ -7,12 +7,15 @@ import {
   FormInputContainer,
   FormInputLabel,
   FormInputField,
+  FormInputRequired,
+  FormInputError,
 } from 'components/Form/Input/styles';
 
 const FormInput = ({
   field,
   register,
   error,
+  clearError,
 }) => {
   const isRequired = useMemo(() => field
     .validations
@@ -25,7 +28,7 @@ const FormInput = ({
       >
         {field.label}
         {isRequired && (
-          <span>*</span>
+          <FormInputRequired>*</FormInputRequired>
         )}
       </FormInputLabel>
       <FormInputField
@@ -34,18 +37,22 @@ const FormInput = ({
         name={field.id}
         placeholder={field.placeholder}
         ref={register}
+        onInput={() => clearError(field.id)}
+        defaultValue={field.value}
       />
-      {error && <div>{error.message}</div>}
+      {error && <FormInputError>{error.message}</FormInputError>}
     </FormInputContainer>
   );
 };
 
 FormInput.defaultProps = {
   register: () => {},
+  clearError: () => {},
   error: null,
 };
 
 FormInput.propTypes = {
+  clearError: PropTypes.func,
   register: PropTypes.func,
   error: PropTypes.shape({
     message: PropTypes.string,
