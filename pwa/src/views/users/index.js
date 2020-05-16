@@ -1,5 +1,7 @@
 import React, {
   useState,
+  useMemo,
+  useContext,
 } from 'react';
 
 import { useHistory } from 'react-router-dom';
@@ -16,11 +18,26 @@ import {
 } from 'views/users/styles';
 
 import readSections from 'views/users/Read/sections';
+import context from '../../store';
 
 const Users = () => {
-  const [sections] = useState([...readSections()]);
-
+  const { states } = useContext(context);
   const { push } = useHistory();
+  const [sections, setSections] = useState([...readSections()]);
+
+  useMemo(() => {
+    const { user } = states.auth.READ;
+
+    setSections((s) => {
+      s[0].list.forEach((item) => {
+        // eslint-disable-next-line no-param-reassign
+        item.value = user[item.id];
+      });
+
+      return s;
+    });
+  }, [states.auth.READ]);
+
   const handleEdit = () => push('/users/edit');
 
   return (

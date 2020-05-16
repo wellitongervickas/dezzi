@@ -3,13 +3,20 @@ import stateGenerator from 'helpers/modules/state';
 
 export const state = stateGenerator();
 
+const prefix = 'users';
+
 export const actions = {
-  create: (params) => client.post('/users', {
+  create: (params) => client.post(`/${prefix}`, {
     ...params,
-  }).then((r) => r.data),
-  auth: (params) => client.post('/users/auth', {
+  }),
+
+  auth: (params) => client.post(`/${prefix}/auth`, {
     ...params,
-  }).then((r) => r.data),
+  }),
+
+  update: (params) => client.put(`/${prefix}`, {
+    ...params,
+  }),
 };
 
 export default state;

@@ -33,6 +33,8 @@ import {
 import { actions } from 'store/modules/auth';
 import context from '../../store';
 
+const prefix = 'auth';
+
 const Login = () => {
   const { path } = useRouteMatch();
   const { push } = useHistory();
@@ -42,10 +44,10 @@ const Login = () => {
   const [formErrors, setFormErrors] = useState([]);
 
   const isRegister = path.includes('register');
-  const loading = useMemo(() => states.auth.READ_LOADING, [states.auth.READ_LOADING]);
+  const loading = states.auth.READ_LOADING;
 
   useMemo(() => {
-    deleteStorage('auth');
+    deleteStorage(prefix);
   }, []);
 
   useMemo(() => {
@@ -58,26 +60,23 @@ const Login = () => {
   }, [isRegister]);
 
   const onSubmitSuccess = useCallback((response) => {
-    storeDispatch('auth', 'READ_LOADING', false);
-    storeDispatch('auth', 'READ', response);
-    saveStorage('auth', response);
+    storeDispatch(prefix, 'READ_LOADING', false);
+    storeDispatch(prefix, 'READ', response);
+    saveStorage(prefix, response);
 
     push('/');
   }, [storeDispatch, push]);
 
-  const onSubmitFailure = useCallback(({ response }) => {
-    storeDispatch('auth', 'READ_LOADING', false);
-
-    try {
-      setFormErrors(response.data.errors);
-    } catch (err) { /* */ }
+  const onSubmitFailure = useCallback((errors) => {
+    storeDispatch(prefix, 'READ_LOADING', false);
+    setFormErrors(errors);
   }, [storeDispatch, setFormErrors]);
 
   const handleSubmit = useCallback((data) => {
-    storeDispatch('auth', 'READ', { });
-    storeDispatch('auth', 'READ_LOADING', true);
+    storeDispatch(prefix, 'READ', { });
+    storeDispatch(prefix, 'READ_LOADING', true);
 
-    actions[isRegister ? 'create' : 'auth'](data)
+    actions[isRegister ? 'create' : prefix](data)
       .then(onSubmitSuccess)
       .catch(onSubmitFailure);
   }, [onSubmitSuccess, onSubmitFailure, storeDispatch, isRegister]);

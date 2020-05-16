@@ -34,8 +34,13 @@ export const defaultButtonPropTypes = {
 };
 
 export const defaultFieldPropTypes = {
-  type: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  fieldType: PropTypes.string,
+  value: PropTypes.string,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  validations: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 export const defaultPropTypes = {

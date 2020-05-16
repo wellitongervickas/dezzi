@@ -9,9 +9,10 @@ import PropTypes from 'prop-types';
 
 import { getStorage } from 'helpers/session/storage';
 
+
 import auth from 'store/modules/auth';
-import contacts from 'store/modules/billings';
-import billings from 'store/modules/contacts';
+import contacts from 'store/modules/contacts';
+import billings from 'store/modules/billings';
 
 const states = {
   auth,
@@ -38,13 +39,13 @@ const StoreContextProvider = ({ children }) => {
     });
   }, [dispatch]);
 
-  const authenticated = getStorage('auth');
-
   useMemo(() => {
+    const authenticated = getStorage('auth');
+
     if (!states.auth.READ.token && authenticated) {
       storeDispatch('auth', 'READ', authenticated);
     }
-  }, [storeDispatch, authenticated]);
+  }, [storeDispatch]);
 
   return (
     <StoreContext.Provider

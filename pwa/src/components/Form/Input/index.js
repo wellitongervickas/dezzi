@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React, {
   useMemo,
 } from 'react';
@@ -11,11 +13,16 @@ import {
   FormInputError,
 } from 'components/Form/Input/styles';
 
+import {
+  defaultFieldPropTypes,
+} from 'components/Form/helpers';
+
 const FormInput = ({
   field,
   register,
   error,
   clearError,
+  loading,
 }) => {
   const isRequired = useMemo(() => field
     .validations
@@ -39,6 +46,7 @@ const FormInput = ({
         ref={register}
         onInput={() => clearError(field.id)}
         defaultValue={field.value}
+        disabled={field.disabled || loading}
       />
       {error && <FormInputError>{error.message}</FormInputError>}
     </FormInputContainer>
@@ -49,22 +57,18 @@ FormInput.defaultProps = {
   register: () => {},
   clearError: () => {},
   error: null,
+  loading: false,
 };
 
 FormInput.propTypes = {
   clearError: PropTypes.func,
   register: PropTypes.func,
+  loading: PropTypes.bool,
   error: PropTypes.shape({
     message: PropTypes.string,
   }),
   field: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    fieldType: PropTypes.string,
-    value: PropTypes.string,
-    label: PropTypes.string,
-    placeholder: PropTypes.string,
-    validations: PropTypes.arrayOf(PropTypes.shape({})),
+    ...defaultFieldPropTypes,
   }).isRequired,
 };
 
