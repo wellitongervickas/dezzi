@@ -1,5 +1,10 @@
-import React from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, {
+  useMemo,
+} from 'react';
+
 import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
 
 import {
   FormContainer,
@@ -8,63 +13,82 @@ import {
 } from 'components/Form/styles';
 
 import FormInput from 'components/Form/Input';
-import FormButton from './Button';
+import FormButton from 'components/Form/Button';
 
-const RenderField = ({ field }) => {
-  if (field.type === 'input') {
-    return <FormInput field={field} />;
+import {
+  defaultProps,
+  defaultPropTypes,
+  defaultFieldPropTypes,
+} from 'components/Form/helpers';
+
+// eslint-disable-next-line react/prop-types
+const RenderField = ({ type, ...rest }) => {
+  if (type === 'input') {
+    return <FormInput {...rest} />;
   }
 
-  return <FormInput field={field} />;
+  return <FormInput {...rest} />;
 };
 
-const Form = ({ fields, button }) => fields.length > 0 && (
-  <FormContainer>
-    <FormFields>
-      {fields.map((field) => (
-        <RenderField
-          key={field.id}
-          field={field}
+const Form = ({
+  fields,
+  button,
+  onSubmit,
+  formErrors,
+  loading,
+}) => {
+  const {
+    handleSubmit,
+    register,
+    setError,
+    clearError,
+    errors,
+  } = useForm();
+
+  useMemo(() => {
+    formErrors.forEach((error) => setError(error.param, error.in, error.message));
+  }, [formErrors, setError]);
+
+  return (
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormFields>
+        {fields.map((field) => (
+          <RenderField
+            key={field.id}
+            field={field}
+            register={register}
+            clearError={clearError}
+            loading={loading}
+            error={errors[field.id]}
+          />
+        ))}
+      </FormFields>
+      <FormButtons>
+        <FormButton
+          type="submit"
+          loading={loading}
+          label={button.label}
+          icon={button.icon}
+          color={button.color}
+          size={button.size}
         />
-      ))}
-    </FormFields>
-    <FormButtons>
-      <FormButton
-        label={button.label}
-        icon={button.icon}
-        color={button.color}
-        size={button.size}
-        onClick={() => {}}
-      />
-    </FormButtons>
-  </FormContainer>
-);
+      </FormButtons>
+    </FormContainer>
+  );
+};
 
 Form.defaultProps = {
-  fields: [],
-  button: {
-    label: 'Submit',
-    size: 'sm',
-  },
+  ...defaultProps,
+};
+
+Form.propTypes = {
+  ...defaultPropTypes,
 };
 
 RenderField.propTypes = {
   field: PropTypes.shape({
-    type: PropTypes.string.isRequired,
+    ...defaultFieldPropTypes,
   }).isRequired,
-};
-
-Form.propTypes = {
-  fields: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  })),
-  button: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    icon: PropTypes.shape({}),
-    size: PropTypes.string,
-    color: PropTypes.string,
-  }),
 };
 
 export default Form;

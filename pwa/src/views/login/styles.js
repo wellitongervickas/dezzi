@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { sm } from 'assets/stylesheets/js/sizes';
+import * as sizes from 'assets/stylesheets/js/sizes';
 
 export const LoginContainer = styled.div`
   width: 100%;
@@ -15,8 +15,12 @@ export const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
+  @media screen and (max-width: ${sizes.tablet}) {
+    margin-top: ${sizes.md()};
+  }
+
   & > * {
-    margin-bottom: ${sm()};
+    margin-bottom: ${sizes.sm()};
   }
 
   & > :last-child {

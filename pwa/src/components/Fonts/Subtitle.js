@@ -15,7 +15,7 @@ const FontsSubtitle = ({
     className={className}
     color={color}
   >
-    <h3>{label}</h3>
+    <h2>{label}</h2>
     {children}
   </FontsSubtitleContainer>
 );

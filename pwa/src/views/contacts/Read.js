@@ -3,15 +3,16 @@ import View from 'components/Page/View';
 
 import Dashboard from 'components/Dashboard';
 import ContactItem from 'components/Contacts/List/Item';
+import ContactsBillingsList from 'components/Contacts/Billings/List';
+import FontsSubtitle from 'components/Fonts/Subtitle';
 
 import {
   ContactsContainer,
   ContactsTitle,
   ContactsContent,
 } from 'views/contacts/styles';
-import FontsSubtitle from 'components/Fonts/Subtitle';
+
 import monetize from 'helpers/text/monetize';
-import ContactsBillingsList from 'components/Contacts/Billings/List';
 
 const contact = {
   first_name: 'welliton',

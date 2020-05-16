@@ -8,25 +8,26 @@ import {
 import { namelize } from 'helpers/text/namelize';
 
 import {
-  ContactsSidebarItemContainer,
-  ContactsSidebarItemName,
-  ContactsSidebarItemPhone,
+  SidebarItemContainer,
+  SidebarItemName,
+  SidebarItemPhone,
 } from 'components/Contacts/Sidebar/styles';
+
 import { phonelize } from 'helpers/text/phonelize';
 
-const ContactsSidebarItem = ({ contact }) => (
-  <ContactsSidebarItemContainer to={setNavLink(contact.uuid)}>
-    <ContactsSidebarItemName>
+const SidebarItem = ({ contact }) => (
+  <SidebarItemContainer to={setNavLink(contact.uuid)}>
+    <SidebarItemName>
       {namelize(contact.first_name, contact.last_name)}
-    </ContactsSidebarItemName>
-    <ContactsSidebarItemPhone>
+    </SidebarItemName>
+    <SidebarItemPhone>
       {phonelize(contact.phone)}
-    </ContactsSidebarItemPhone>
-  </ContactsSidebarItemContainer>
+    </SidebarItemPhone>
+  </SidebarItemContainer>
 );
 
-ContactsSidebarItem.propTypes = {
+SidebarItem.propTypes = {
   contact: contactType.isRequired,
 };
 
-export default ContactsSidebarItem;
+export default SidebarItem;

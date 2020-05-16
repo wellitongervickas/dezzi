@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+  useContext,
+} from 'react';
+
 import { useHistory } from 'react-router-dom';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -6,16 +9,19 @@ import View from 'components/Page/View';
 import Dashboard from 'components/Dashboard';
 import ContactsList from 'components/Contacts/List';
 import FormButton from 'components/Form/Button';
-
-import { defaultPropTypes } from 'components/Contacts/helpers';
+import Loading from 'components/Loading';
 
 import {
   ContactsContainer,
   ContactsTitle,
 } from 'views/contacts/styles';
 
-const Contacts = ({ contacts }) => {
+import context from '../../store';
+
+const Contacts = () => {
+  const { states } = useContext(context);
   const { push } = useHistory();
+
   const handleNew = () => push('contacts/new');
 
   return (
@@ -30,19 +36,15 @@ const Contacts = ({ contacts }) => {
               onClick={handleNew}
             />
           </ContactsTitle>
-          <ContactsList contacts={contacts} />
+          {states.contacts.LOADING ? (
+            <Loading size="2x" />
+          ) : (
+            <ContactsList contacts={states.contacts.LIST} />
+          )}
         </ContactsContainer>
       </Dashboard>
     </View>
   );
-};
-
-ContactsList.defaultProps = {
-  contacts: [],
-};
-
-Contacts.propTypes = {
-  ...defaultPropTypes,
 };
 
 export default Contacts;
