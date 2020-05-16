@@ -36,7 +36,7 @@ const Contacts = () => {
               onClick={handleNew}
             />
           </ContactsTitle>
-          {states.contacts.LOADING ? (
+          {states.contacts.LIST_LOADING ? (
             <Loading size="2x" />
           ) : (
             <ContactsList contacts={states.contacts.LIST} />

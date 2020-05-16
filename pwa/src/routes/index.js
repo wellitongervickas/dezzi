@@ -12,7 +12,6 @@ import {
 } from 'react-router-dom';
 
 import routes from 'routes/routes';
-
 import storeContext from '../store';
 
 const RenderRoute = ({

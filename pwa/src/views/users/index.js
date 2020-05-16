@@ -34,7 +34,7 @@ const Users = () => {
         item.value = user[item.id];
       });
 
-      return s;
+      return [...s];
     });
   }, [states.auth.READ]);
 

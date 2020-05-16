@@ -10,6 +10,7 @@ import {
 
 const SidebarEmpty = () => {
   const { push } = useHistory();
+
   const handleNewContact = () => push('/contacts/new');
 
   return (

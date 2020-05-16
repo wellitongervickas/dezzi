@@ -1,5 +1,11 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React, {
+  useCallback,
+  useContext,
+} from 'react';
+
+import {
+  useHistory,
+} from 'react-router-dom';
 
 import {
   faPen,
@@ -7,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import FormButton from 'components/Form/Button';
+import FontsSubtitle from 'components/Fonts/Subtitle';
 
 import { contactType, setNavLink } from 'components/Contacts/helpers';
 import { namelize } from 'helpers/text/namelize';
@@ -18,18 +25,29 @@ import {
   ContactsListItemButtons,
 } from 'components/Contacts/List/styles';
 
+import context from '../../../store';
+import { actions } from '../../../store/modules/contacts';
+
 const ContactsListItem = ({ contact }) => {
   const { push } = useHistory();
+  const { states, storeDispatch } = useContext(context);
 
-  const onEdit = () => push(`/contacts/${contact.uuid}/edit`);
-  const onRemove = () => { };
+  const handlEdit = () => push(`/contacts/${contact.uuid}/edit`);
+
+  const onDeleteSuccess = useCallback(() => {
+    storeDispatch('contacts', 'LIST', states.contacts.LIST.filter((i) => i.uuid !== contact.uuid));
+
+    push('/');
+  }, [push, states.contacts.LIST, contact.uuid, storeDispatch]);
+
+  const onDelete = useCallback(() => {
+    actions.delete(contact.uuid).then(onDeleteSuccess).catch();
+  }, [onDeleteSuccess, contact.uuid]);
 
   return (
     <ContactsListItemContainer>
       <ContactsListItemDetails to={setNavLink(contact.uuid)}>
-        <div>
-          {namelize(contact.first_name, contact.last_name)}
-        </div>
+        <FontsSubtitle label={namelize(contact.first_name, contact.last_name)} />
         <div>
           {phonelize(contact.phone)}
         </div>
@@ -41,13 +59,13 @@ const ContactsListItem = ({ contact }) => {
         <FormButton
           size="xs"
           icon={faPen}
-          onClick={onEdit}
+          onClick={handlEdit}
         />
         <FormButton
           color="red"
           size="xs"
           icon={faTimes}
-          onClick={onRemove}
+          onClick={onDelete}
         />
       </ContactsListItemButtons>
     </ContactsListItemContainer>

@@ -1,5 +1,16 @@
 import * as types from 'components/Form/types';
 
+export const newBillingFields = () => [{
+  ...types.input,
+  id: 'value',
+  label: 'Value',
+  value: '',
+  placeholder: 'Please type a value',
+  validations: [{
+    type: 'blank',
+  }],
+}];
+
 export default () => [{
   ...types.input,
   id: 'first_name',
