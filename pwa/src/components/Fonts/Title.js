@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {
   FontsTitleContainer,
 } from 'components/Fonts/styles';
+
+import { defaultProps, defaultPropTypes } from 'components/Fonts/helpers';
 
 const FontsTitle = ({
   children,
@@ -21,16 +22,11 @@ const FontsTitle = ({
 );
 
 FontsTitle.defaultProps = {
-  color: null,
-  className: null,
-  children: null,
+  ...defaultProps,
 };
 
 FontsTitle.propTypes = {
-  label: PropTypes.string.isRequired,
-  color: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
+  ...defaultPropTypes,
 };
 
 export default FontsTitle;

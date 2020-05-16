@@ -3,14 +3,14 @@ export default () => [{
   list: [{
     id: 'first_name',
     label: 'First name',
-    value: 'Welliton',
+    value: '',
   }, {
     id: 'last_name',
     label: 'Last name',
-    value: 'Gervickas',
+    value: '',
   }, {
     id: 'email',
     label: 'Email',
-    value: 'wel@wel.com',
+    value: '',
   }],
 }];

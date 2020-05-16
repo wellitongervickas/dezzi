@@ -1,16 +1,19 @@
 import React, {
   useContext,
-  useMemo,
+  // useMemo,
+  useEffect,
   useState,
   useCallback,
 } from 'react';
 
-import { useRouteMatch } from 'react-router-dom';
+import {
+  useRouteMatch,
+  useHistory,
+} from 'react-router-dom';
 
 import View from 'components/Page/View';
 import Dashboard from 'components/Dashboard';
 import Form from 'components/Form';
-import Alert from 'components/Alert';
 
 import {
   ContactsContainer,
@@ -25,41 +28,50 @@ const prefix = 'contacts';
 
 const ContactsForm = () => {
   const { path, params } = useRouteMatch();
+  const { push } = useHistory();
   const { states, storeDispatch } = useContext(context);
 
   const [formFields, setFormFields] = useState([...fields()]);
   const [formErrors, setFormErrors] = useState([]);
 
   const newContact = path.match('new');
+
   const statePrefix = newContact ? 'CREATE' : 'UPDATE';
   const loadingPrefix = `${statePrefix}_LOADING`;
+
   const label = newContact ? 'New Contact' : 'Edit';
-
   const loading = states.contacts[loadingPrefix];
-  const showAlert = Object.keys(states.contacts[statePrefix]).length > 0;
-  const text = `${newContact ? 'Created' : 'Updated'} successfully`;
 
-  useMemo(() => {
-    const list = states.contacts.LIST;
-    const { uuid } = params;
-    const contact = list.find((i) => i.uuid === uuid);
+  const onGetContactSuccess = useCallback((res) => {
+    storeDispatch('contacts', 'READ', res);
+    storeDispatch('contacts', 'READ_LOADING', false);
 
-    if (contact) {
-      setFormFields((s) => {
-        s.forEach((i) => {
-          // eslint-disable-next-line no-param-reassign
-          i.value = contact[i.id];
-        });
-
-        return s;
+    setFormFields((s) => {
+      s.forEach((i) => {
+        // eslint-disable-next-line no-param-reassign
+        i.value = res[i.id];
       });
+
+      return [...s];
+    });
+  }, [storeDispatch, setFormFields]);
+
+  useEffect(() => {
+    if (!newContact) {
+      storeDispatch(prefix, 'READ', {});
+      storeDispatch(prefix, 'READ_LOADING', true);
+
+      actions.getContact(params.uuid).then(onGetContactSuccess);
     }
-  }, [states.contacts.LIST, params]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmitSuccess = useCallback((response) => {
     storeDispatch(prefix, loadingPrefix, false);
     storeDispatch(prefix, statePrefix, response);
-  }, [storeDispatch, statePrefix, loadingPrefix]);
+
+    push(`/contacts/${states.contacts[statePrefix].uuid}`);
+  }, [storeDispatch, statePrefix, loadingPrefix, push, states.contacts]);
 
   const onSubmitFailure = useCallback((errors) => {
     storeDispatch(prefix, loadingPrefix, false);
@@ -87,7 +99,6 @@ const ContactsForm = () => {
       <Dashboard>
         <ContactsContainer>
           <ContactsTitle label={label} />
-          {showAlert && <Alert text={text} color="green" />}
           <Form
             onSubmit={handleSubmit}
             fields={formFields}

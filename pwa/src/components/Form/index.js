@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, {
   useMemo,
+  useState,
 } from 'react';
 
 import PropTypes from 'prop-types';
@@ -45,6 +46,8 @@ const Form = ({
     errors,
   } = useForm();
 
+  const [formFields] = useState([...fields]);
+
   useMemo(() => {
     formErrors.forEach((error) => setError(error.param, error.in, error.message));
   }, [formErrors, setError]);
@@ -52,7 +55,7 @@ const Form = ({
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <FormFields>
-        {fields.map((field) => (
+        {formFields.map((field) => (
           <RenderField
             key={field.id}
             field={field}

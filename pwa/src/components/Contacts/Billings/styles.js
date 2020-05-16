@@ -5,21 +5,24 @@ import * as colors from 'assets/stylesheets/js/colors';
 
 export const BillingsListContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const BillingsItemContainer = styled.div`
   padding: ${sizes.sm()};
-  color: ${colors.violetDark};
+  color: ${colors.violetLight};
   border: 2px solid ${colors.violetDark};
   border-radius: ${sizes.sm()};
-  margin-right: ${sizes.sm()};
+  margin: ${sizes.sm()};
 
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
 
-  &:last-of-type {
-    margin-right: 0;
+  flex: 1 1 26%;
+
+  @media screen and (max-width: ${sizes.tablet}) {
+    flex: 1 1 100%;
   }
 `;
 

@@ -8,6 +8,7 @@ export const billingType = PropTypes.shape({
 });
 
 export const defaultBillingPropTypes = {
+  loading: PropTypes.bool,
   billings: PropTypes.arrayOf(billingType),
 };
 

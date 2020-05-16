@@ -14,7 +14,7 @@ export const BillingItemActionsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.5);
   color: ${colors.white};
 
   & > :last-of-type {

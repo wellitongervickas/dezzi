@@ -76,9 +76,7 @@ const Login = () => {
     storeDispatch(prefix, 'READ', { });
     storeDispatch(prefix, 'READ_LOADING', true);
 
-    actions[isRegister ? 'create' : prefix](data)
-      .then(onSubmitSuccess)
-      .catch(onSubmitFailure);
+    actions[isRegister ? 'create' : prefix](data).then(onSubmitSuccess).catch(onSubmitFailure);
   }, [onSubmitSuccess, onSubmitFailure, storeDispatch, isRegister]);
 
   return (

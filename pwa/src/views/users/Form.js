@@ -8,6 +8,7 @@ import React, {
 import View from 'components/Page/View';
 import Dashboard from 'components/Dashboard';
 import Form from 'components/Form';
+import Alert from 'components/Alert';
 
 import {
   UsersContainer,
@@ -22,10 +23,13 @@ const prefix = 'auth';
 
 const UsersForm = () => {
   const { states, storeDispatch } = useContext(context);
+
   const [formFields, setFormFields] = useState([...fields()]);
   const [formErrors, setFormErrors] = useState([]);
 
-  const loading = useMemo(() => states.auth.READ_LOADING, [states.auth.READ_LOADING]);
+  const showAlert = Object.keys(states.auth.UPDATE).length > 0;
+
+  const loading = useMemo(() => states.auth.UPDATE_LOADING, [states.auth.UPDATE_LOADING]);
 
   useMemo(() => {
     const { user } = states.auth.READ;
@@ -36,26 +40,32 @@ const UsersForm = () => {
         item.value = user[item.id];
       });
 
-      return s;
+      return [...s];
     });
   }, [states.auth.READ]);
 
   const onSubmitSuccess = useCallback((response) => {
-    storeDispatch(prefix, 'READ_LOADING', false);
-    storeDispatch(prefix, 'READ', response);
-  }, [storeDispatch]);
+    storeDispatch(prefix, 'UPDATE_LOADING', false);
+    storeDispatch(prefix, 'UPDATE', response);
+
+    storeDispatch(prefix, 'READ', {
+      ...states.auth.READ,
+      user: {
+        ...response,
+      },
+    });
+  }, [storeDispatch, states.auth.READ]);
 
   const onSubmitFailure = useCallback((errors) => {
-    storeDispatch(prefix, 'READ_LOADING', false);
+    storeDispatch(prefix, 'UPDATE_LOADING', false);
     setFormErrors(errors);
   }, [storeDispatch, setFormErrors]);
 
   const handleSubmit = useCallback((data) => {
-    storeDispatch(prefix, 'READ_LOADING', true);
+    storeDispatch(prefix, 'UPDATE', {});
+    storeDispatch(prefix, 'UPDATE_LOADING', true);
 
-    actions.update(data)
-      .then(onSubmitSuccess)
-      .catch(onSubmitFailure);
+    actions.update(data).then(onSubmitSuccess).catch(onSubmitFailure);
   }, [onSubmitSuccess, onSubmitFailure, storeDispatch]);
 
   return (
@@ -63,6 +73,7 @@ const UsersForm = () => {
       <Dashboard>
         <UsersContainer>
           <UsersTitle label="Edit Profile" />
+          {showAlert && <Alert text="Updated successfully" />}
           <Form
             fields={formFields}
             onSubmit={handleSubmit}
